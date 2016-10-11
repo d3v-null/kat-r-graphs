@@ -1,16 +1,28 @@
-attach(locof)
+#### Install dependencies ####
 
-str(locof)
+install.packages('car')
+install.packages('ggplot2')
+
+require(ggplot2)
+
+#### Import / format data ####
+
+locof <- read.csv('locof.csv')
+
+attach(locof)
 
 line <- as.factor(line)
 trial <- as.factor(trial)
 block <- as.factor(block)
 sex <-as.factor(sex)
+levels(sex) <- c('\U2640 Female', '\U2642 Male')
 plate <-as.factor(plate)
 
-summary(locof)
+#### Not sure what this stuff does ####
 
-install.packages('car')
+str(locof)
+
+summary(locof)
 
 
 modlf <-lmer(dist~sex+line+sex:line+(1|block)+
@@ -56,9 +68,14 @@ Anova(modd, type='III')
 #original interaction plot
 #interaction.plot(sex, line, dist)
 
-levels(sex) <- c('\U2640 Female', '\U2642 Male')
-interaction.plot(sex, line, dist,  
-                 legend=FALSE, col=c('#200808', '#193338', '#B6AE8D', '#7F8A63', '#614C3B'))
+# interaction.plot(sex, line, dist,
+#                  legend=FALSE, col=c('#200808', '#193338', '#B6AE8D', '#7F8A63', '#614C3B'))
+library(ggplot2)
+g<-ggplot(locof, aes(sex,dist, group=line))
+g+geom_point()
+# g+geom_line()
+# g+geom_segment()
+
 
 plot(dist~line*sex)
 

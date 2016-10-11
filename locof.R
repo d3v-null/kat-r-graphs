@@ -54,7 +54,11 @@ Anova(modd, type='III')
 ##### interaction plot #####
 
 #original interaction plot
-interaction.plot(sex, line, dist)
+#interaction.plot(sex, line, dist)
+
+levels(sex) <- c('\U2640 Female', '\U2642 Male')
+interaction.plot(sex, line, dist,  
+                 legend=FALSE, col=c('#200808', '#193338', '#B6AE8D', '#7F8A63', '#614C3B'))
 
 plot(dist~line*sex)
 

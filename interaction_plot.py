@@ -7,7 +7,6 @@ import string
 
 # from copy import copy
 
-g = gp.ggplot(gp.aes(x='sex', y='dist', color='line'), data=locof_df)
 data_path = 'locof.csv'
 
 locof_df = pd.read_csv(data_path)
@@ -22,8 +21,11 @@ def stupid_sex_plotting_hack(df, _aes=None):
     return g
 
 locof_lines_df = locof_df.groupby(['sex', 'line'],as_index=False).mean()
+locof_lines_df['line'] = locof_lines_df['line'].astype('string')
 
 g = stupid_sex_plotting_hack(locof_lines_df, aes(x='sex', y='dist', group='line'))
+g = stupid_sex_plotting_hack(locof_lines_df, aes(x='sex', y='dist', color='line'))
 g+= geom_point()
+scale_color_funfetti()
 g+= geom_line()
 g.show()
